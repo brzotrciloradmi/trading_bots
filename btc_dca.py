@@ -7,33 +7,35 @@ import ccxt
 # timer dependency
 import time
 
+# Logging
+import logging
+from logging.handlers import RotatingFileHandler
+
+logger = logging.getLogger("dca_logger")
+logger.setLevel(logging.INFO)
 
 exchange = ccxt.binance({
     'apiKey': api_key,
     'secret': full_priv_key,
-    })
+    "enableRateLimit": True,   # avoid bans / 429s
+})
 
 # symbol: 'BTC/USDT', 'buy', 0.0001)
 def place_order(symbol, side, amount):
     order = exchange.create_market_order(symbol, side, amount)
-    print(order)
-
-# Convert USDT to Target Symbol value.
-def convert(inputUSDT, targetSymbolPrice):
-    return inputUSDT/targetSymbolPrice
-
-
 
 if __name__=="__main__":
     SECONDS_24H = 24 * 60 * 60
+    buyAmountUSDT = 30
+    SYMBOL = 'BTC/USDT'
 
     while(True):
-        ticker = exchange.fetch_ticker("BTC/USDT")
-        current_BTCUSDT_price = ticker['last']
-
-        orderSize = convert(30, current_BTCUSDT_price)
-        place_order('BTC/USDT', 'buy', orderSize)
-
+        # Trading Stragegy - DCA
         time.sleep(SECONDS_24H)
+        orderAmount = exchange.amount_to_precision(SYMBOL, buyAmountUSDT)
+
+        # Execution
+        order = place_order(SYMBOL, 'buy', orderAmount)
+        logger.info('BTC DCA order executed for ' + buyAmountUSDT + 'USDT')
 
 
