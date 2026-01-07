@@ -35,7 +35,7 @@ if __name__=="__main__":
         orderAmount = exchange.amount_to_precision(SYMBOL, buyAmountUSDT)
 
         # Execution
-        order = place_order(SYMBOL, 'buy', orderAmount)
-        logger.info('BTC DCA order executed for ' + buyAmountUSDT + 'USDT')
+        # order = place_order(SYMBOL, 'buy', orderAmount)
+        # logger.info('BTC DCA order executed for ' + buyAmountUSDT + 'USDT')
 
 

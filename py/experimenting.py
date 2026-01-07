@@ -1,6 +1,6 @@
 import pandas as pd
 
-from keys import private_key, public_key, api_key
+from keys import full_priv_key, api_key
 
 #CryptoCurrency eXchange Trading Library
 import ccxt
@@ -12,11 +12,11 @@ import ta
 import time
 
 # binance specific lib
-from binance import Client, ThreadedWebsocketManager, ThreadedDepthCacheManager
+# from binance import Client, ThreadedWebsocketManager, ThreadedDepthCacheManager
 
 exchange = ccxt.binance({
-    'apiKey': public_key,
-    'secret': private_key
+    'apiKey': api_key,
+    'secret': full_priv_key
     })
 
 # symbol: 'BTC/USDT', 'buy', 0.0001)
@@ -31,7 +31,7 @@ def USDTtoBTC(inputUSDT, priceBTC_USDT):
 
 if __name__=="__main__":
     # Fetch last N 1-hour candles for BTC/USDT
-    # bars = exchange.fetch_ohlcv('BTC/USDT', timeframe='1h', limit=100)
+    bars = exchange.fetch_ohlcv('BTC/USDT', timeframe='1h', limit=100)
     # df = pd.DataFrame(bars, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
     # df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
 
