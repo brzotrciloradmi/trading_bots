@@ -11,6 +11,8 @@ import time
 import logging
 from logging.handlers import RotatingFileHandler
 
+from telegram_bot import telegram_notifier as notifier
+
 logger = logging.getLogger("dca_logger")
 logger.setLevel(logging.INFO)
 
@@ -34,8 +36,8 @@ if __name__=="__main__":
         time.sleep(SECONDS_24H)
         orderAmount = exchange.amount_to_precision(SYMBOL, buyAmountUSDT)
 
+        notifier.notify("Executing BTC DCA buy for " + buyAmountUSDT + "USDT")
         # Execution
-        # order = place_order(SYMBOL, 'buy', orderAmount)
+        order = place_order(SYMBOL, 'buy', orderAmount)
         # logger.info('BTC DCA order executed for ' + buyAmountUSDT + 'USDT')
-
 
